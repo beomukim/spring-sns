@@ -18,6 +18,7 @@ import com.memo.post.model.Post;
 public class PostController {
 	@Autowired
 	private PostBO postbo;
+	
 	@RequestMapping("/post_list_view")
 	public String postListview(Model model, HttpServletRequest request) {
 		// 글 목록들을 가져온다.
@@ -28,5 +29,18 @@ public class PostController {
 		model.addAttribute("postList", postList);
 		model.addAttribute("viewName", "/post/post_list");
 		return "template/layout";
+	}
+	
+	@RequestMapping("/post_create_view")
+	public String postCreateView(Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Integer userId = (Integer) session.getAttribute("userId");
+		if (userId == null) {
+			return "redirect:/user/sign_in_view";
+		}
+		
+		model.addAttribute("viewName", "post/post_create");
+		
+		return "/template/layout";
 	}
 }
