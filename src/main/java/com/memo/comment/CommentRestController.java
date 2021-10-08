@@ -1,4 +1,4 @@
-package com.memo.post;
+package com.memo.comment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,32 +12,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.memo.like.bo.LikeBO;
-import com.memo.post.bo.PostBO;
+import com.memo.comment.bo.CommentBO;
 
 @RestController
-@RequestMapping("/post")
-public class PostRestController {
+@RequestMapping("/comment")
+public class CommentRestController {
 private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
-	private PostBO postBO;
-	
-	@Autowired
-	private LikeBO likeBO;
+	private CommentBO commentBO;
 	
 	/**
-	 * 글쓰기 및 이미지 업로드
+	 * 댓글 쓰기
+	 * @param postId
 	 * @param content
-	 * @param file
+	 * @param request
 	 * @return
 	 */
 	@RequestMapping("/create")
 	public Map<String, Object> create(
+			@RequestParam("postId") int postId,
 			@RequestParam("content") String content,
-			@RequestParam(value = "file", required = false) MultipartFile file,
 			HttpServletRequest request) {
 		
 		Map<String, Object> result = new HashMap<>();
@@ -46,38 +42,17 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 		String userName = (String) session.getAttribute("userName");
 		if (userId == null || userName == null) {
 			result.put("result", "error");
-			logger.error("[글쓰기] 로그인 세션이 없습니다.");
+			logger.error("[댓글쓰기] 로그인 세션이 없습니다.");
 			return result;
 		}
 		
-		int row = postBO.createPost(userId, userName, content, file);
+		int row = commentBO.createComment(userId, userName, postId, content);
 		if (row > 0) {
 			result.put("result", "success");
 		} else {
 			result.put("result", "error");
-			logger.error("[글쓰기] 글쓰기를 완료하지 못했습니다.");
+			logger.error("[댓글쓰기] 댓글쓰기 중 실패하였습니다.");
 		}
-		
 		return result;
 	}
-	
-//	@RequestMapping("/like")
-//	public Map<String, Object> like(
-//			@RequestParam("postId") int postId,
-//			HttpServletRequest request) {
-//		
-//		Map<String, Object> result = new HashMap<>();
-//		HttpSession session = request.getSession();
-//		Integer userId = (Integer) session.getAttribute("userId");
-//		if (userId == null) {
-//			result.put("result", "error");
-//			logger.error("[좋아요] 로그인 세션이 없습니다.");
-//			return result;
-//		}
-//		
-//		likeBO.like(postId, userId);
-//		result.put("result", "success");
-//		return result;
-//	}
-	
 }

@@ -3,24 +3,23 @@ package com.memo.user.bo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.memo.user.User;
 import com.memo.user.dao.UserDAO;
+import com.memo.user.model.User;
 
 @Service
 public class UserBO {
 	@Autowired
-	private UserDAO userdao;
-	
-	public boolean existLoginId(String loginId) {
-		return userdao.existLoginId(loginId);
+	private UserDAO userDAO;
+
+	public int existLoginId(String loginId) {
+		return userDAO.existLoginId(loginId);
 	}
 	
 	public int insertUser(String loginId, String password, String name, String email) {
-		return userdao.insertUser(loginId, password, name, email);
+		return userDAO.insertUser(loginId, password, name, email);
 	}
 	
-	public User getUserByLoginIdAndPassword(String loginId, String password) {
-		return userdao.selectUserByLoginIdPassword(loginId, password);
+	public User getUser(String loginId, String password) {
+		return userDAO.selectUserByLoginIdPassword(loginId, password);
 	}
-
 }

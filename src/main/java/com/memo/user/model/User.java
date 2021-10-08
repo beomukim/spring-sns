@@ -1,4 +1,4 @@
-package com.memo.user;
+package com.memo.user.model;
 
 public class User {
 	private int id;
@@ -37,5 +37,4 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
 }
