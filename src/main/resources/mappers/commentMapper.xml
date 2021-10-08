@@ -15,7 +15,7 @@
 	 	FROM
 	 		`comment`
 	 	WHERE
-	 		postId = ${postId}
+	 		postId = #{postId}
 	</select>
 	
 	<insert id="insertComment" parameterType="map">
@@ -38,4 +38,12 @@
 			, NOW()
 		)
 	</insert>
+	
+	<delete id="deleteComment" parameterType="int">
+		DELETE
+		FROM
+			`comment`
+		WHERE
+			`id` = #{id}
+	</delete>
 </mapper>

@@ -17,7 +17,7 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	// 실제 이미지가 저장될 경로
 	// 프로젝트 밑에 images 폴더를 만들어 놓아야 한다!!!!
-	public final static String FILE_UPLOAD_PATH = "C:\\Users\\신보람\\Documents\\강의\\강의용프로젝트\\webProjectSNS\\images/";
+	public final static String FILE_UPLOAD_PATH = "C:\\Users\\beomukim\\Desktop\\workspace-sns\\images/";
 	
 	public String saveFile(Integer userId, MultipartFile file) throws IOException {
 		// 파일 디렉토리 경로 예: 1_1620995857660/sun.png    
