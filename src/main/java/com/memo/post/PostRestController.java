@@ -61,23 +61,6 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 		return result;
 	}
 	
-//	@RequestMapping("/like")
-//	public Map<String, Object> like(
-//			@RequestParam("postId") int postId,
-//			HttpServletRequest request) {
-//		
-//		Map<String, Object> result = new HashMap<>();
-//		HttpSession session = request.getSession();
-//		Integer userId = (Integer) session.getAttribute("userId");
-//		if (userId == null) {
-//			result.put("result", "error");
-//			logger.error("[좋아요] 로그인 세션이 없습니다.");
-//			return result;
-//		}
-//		
-//		likeBO.like(postId, userId);
-//		result.put("result", "success");
-//		return result;
-//	}
+
 	
 }
