@@ -17,13 +17,13 @@ import com.memo.timeline.model.Content;
 public class TimelineController {
 	@Autowired
 	private ContentBO contentBO;
-	
+
 	@RequestMapping("/timeline/timeline_view")
 	public String timeline(Model model, HttpServletRequest request) {
-		// 로그인 된 사용자의 좋아요 상태를 표시하기 위해 userId 파라미터를 추가한다. 
+		// 로그인 된 사용자의 좋아요 상태를 표시하기 위해 userId 파라미터를 추가한다.
 		HttpSession session = request.getSession();
 		Integer userId = (Integer) session.getAttribute("userId");
-		
+
 		List<Content> contentList = contentBO.getContentList(userId);
 		model.addAttribute("contentList", contentList);
 		model.addAttribute("viewName", "timeline/timeline");
