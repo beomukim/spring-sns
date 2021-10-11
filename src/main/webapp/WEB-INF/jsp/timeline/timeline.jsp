@@ -41,11 +41,12 @@
 					<div class="p-2 d-flex justify-content-between">
 						<span class="font-weight-bold">${content.post.userName}</span>
 						
+						
 						<%-- 클릭할 수 있는 ... 버튼 이미지 --%>
 						<%-- 로그인 된 사용자가 작성한 경우에만 버튼 노출 --%>
 						<%-- 삭제될 글번호를 modal창에 넣기 위해 더보기 클릭시 이벤트에서 심어준다. --%>
 						<c:if test="${userName eq content.post.userName}">
-							<a href="#" class="more-btn" data-toggle="modal" data-target="#moreModal" data-post-id="${content.post.id}">
+							<a href="#" class="more-btn" data-toggle="modal" data-target="#moreModal" data-post-id="${content.post.id}" data-user-id="${content.post.userId}">
 								<img src="https://www.iconninja.com/files/860/824/939/more-icon.png" width="30">
 							</a>
 						</c:if>
@@ -130,6 +131,10 @@
 			<div class="w-100">
 				<div class="my-3 text-center">
 					<a href="#" class="del-post d-block">삭제하기</a><%-- 클릭할 수 있는 영역을 넓히기 위해 d-block --%>
+				</div>
+				<div class="border-top text-center">
+				<div class="my-3 text-center">
+					<a href="#" class="follow d-block">팔로우하기</a>
 				</div>
 				<div class="border-top py-3 text-center">
 					<%-- data-dismiss: 모달창 닫힘 --%>
@@ -287,7 +292,11 @@ $(document).ready(function() {
 	// 삭제될 글번호를 더보기 클릭시 모달에 넣어준다.
 	$('.more-btn').on('click', function(e) {
 		var postId = $(this).data('post-id');
+		var userId = $(this).data('user-id');
 		$('#moreModal').data('post-id', postId);
+		$('#moreModal').data('user-id', userId);
+		//console.log(userId);
+		//alert(postId);
 	});
 	
 	// 더보기 > 글삭제 클릭
@@ -304,6 +313,29 @@ $(document).ready(function() {
 			success: function(data) {
 				if (data.result == 'success') {
 					location.reload(); // 새로고침
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				var errorMsg = jqXHR.responseJSON.status;
+				alert(errorMsg + ":" + textStatus);
+			}
+		});
+	});
+	$('#moreModal .follow').on('click', function(e) {
+		e.preventDefault();
+		
+		var postUserId = $('#moreModal').data('user-id');
+		
+		//alert(postId);
+		//alert(userId);
+		
+		$.ajax({
+			type:'POST',
+			url:'/follow',
+			data: {"postUserId":postUserId},
+			success: function(data) {
+				if (data.result == 'success') {
+					alert('팔로우 하셨습니다!');
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
